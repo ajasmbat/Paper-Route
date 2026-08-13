@@ -20,7 +20,9 @@ export const state = {
   input: {
     pitch: 0,        // -1..1
     roll: 0,         // -1..1
+    yaw: 0,          // -1..1
     throttleIsh: 0,  // -1..1
+    resetRequested: false,
   },
 
   level: {

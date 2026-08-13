@@ -55,6 +55,27 @@
         font-family: 'Archivo', system-ui, sans-serif;
         font-weight: 700;
       }
+
+      #click-to-fly {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px 18px;
+        font-family: 'DM Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 0.15em;
+        color: var(--deep);
+        background: rgba(233, 227, 210, 0.85);
+        border: 1px solid var(--deep);
+        border-radius: 2px;
+        pointer-events: none;
+        z-index: 20;
+        user-select: none;
+      }
+
+      #click-to-fly[hidden] { display: none; }
     </style>
   </head>
   <body>
@@ -66,6 +87,7 @@
       <div id="hud-stall"></div>
       <div id="hud-fail"></div>
     </div>
+    <div id="click-to-fly" hidden>CLICK TO FLY</div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
