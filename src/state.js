@@ -47,6 +47,13 @@ export const state = {
     muted: false,
   },
 
+  thermals: {
+    // Index into the currently-loaded thermal array of the thermal the plane
+    // is inside (w * strength argmax), or -1. Ticket 6 fires the catch sound
+    // on transition from -1 → i; Ticket 5 uses it for the FOV swell trigger.
+    activeThermalIndex: -1,
+  },
+
   time: {
     elapsed: 0,      // seconds since app start (integrated in fixed steps)
     stepDt: 1 / 120, // fixed timestep
