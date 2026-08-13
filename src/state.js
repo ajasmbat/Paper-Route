@@ -5,15 +5,15 @@ import * as THREE from 'three';
 
 export const state = {
   plane: {
-    position: new THREE.Vector3(0, 100, 0),
-    velocity: new THREE.Vector3(0, 0, 0),
+    position: new THREE.Vector3(0, 200, 0),
+    velocity: new THREE.Vector3(0, 0, -12),
     quaternion: new THREE.Quaternion(),
     angularVel: new THREE.Vector3(0, 0, 0),
     airspeed: 0,
     aoa: 0,
     stalled: false,
     // Previous-step snapshot for render interpolation.
-    prevPosition: new THREE.Vector3(0, 100, 0),
+    prevPosition: new THREE.Vector3(0, 200, 0),
     prevQuaternion: new THREE.Quaternion(),
   },
 
