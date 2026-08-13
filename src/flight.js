@@ -116,14 +116,46 @@ export function init(state) {
 
   const geom = buildPaperPlaneGeom();
   const mat = new THREE.MeshBasicMaterial({
-    color: 0xf4eee0,
+    color: 0xddd3be,
     side: THREE.DoubleSide,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1,
   });
   planeMesh = new THREE.Mesh(geom, mat);
   planeMesh.position.copy(state.plane.position);
   planeMesh.quaternion.copy(state.plane.quaternion);
   state.three.scene.add(planeMesh);
   state.plane.mesh = planeMesh;
+
+  // Crease seams in --deep, drawn on top of the wing/fin faces.
+  // Order matches buildPaperPlaneGeom(): 0 nose, 1 tail, 2 L-tip, 3 R-tip, 4 fin.
+  const s = 0.75;
+  const V = [
+    [0.0,       0.0,     -1.3 * s],  // 0
+    [0.0,       0.0,      0.4 * s],  // 1
+    [-0.85 * s, 0.0,      0.25 * s], // 2
+    [0.85 * s,  0.0,      0.25 * s], // 3
+    [0.0,       0.30 * s, 0.4 * s],  // 4
+  ];
+  const seamPairs = [
+    [0, 1], // spine crease
+    [0, 4], // fin leading edge
+    [4, 1], // fin trailing edge
+    [1, 2], // left wing/body fold
+    [1, 3], // right wing/body fold
+  ];
+  const creasePositions = new Float32Array(seamPairs.length * 2 * 3);
+  for (let i = 0; i < seamPairs.length; i++) {
+    const [a, b] = seamPairs[i];
+    creasePositions.set(V[a], i * 6);
+    creasePositions.set(V[b], i * 6 + 3);
+  }
+  const creaseGeom = new THREE.BufferGeometry();
+  creaseGeom.setAttribute('position', new THREE.BufferAttribute(creasePositions, 3));
+  const creaseMat = new THREE.LineBasicMaterial({ color: 0x12162B, linewidth: 1 });
+  const creases = new THREE.LineSegments(creaseGeom, creaseMat);
+  planeMesh.add(creases);
 }
 
 export function update(state, dt) {
