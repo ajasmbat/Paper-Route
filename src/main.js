@@ -7,7 +7,6 @@ import * as camera from './camera.js';
 import * as audio from './audio.js';
 import * as hud from './hud.js';
 import * as input from './input.js';
-import * as trail from './trail.js';
 import * as levels from './levels.js';
 import * as scoring from './scoring.js';
 
@@ -45,7 +44,7 @@ window.addEventListener('resize', () => {
 });
 
 // Initialize every module in dependency order.
-const modules = [levels, input, flight, world, thermals, camera, audio, hud, trail, scoring];
+const modules = [levels, input, flight, world, thermals, camera, audio, hud, scoring];
 for (const m of modules) m.init?.(state);
 
 // ---- Fixed-timestep loop with accumulator + render interpolation ---------
@@ -68,7 +67,6 @@ function step(dt) {
   thermals.update?.(state, dt);
   world.update?.(state, dt);
   camera.update?.(state, dt);
-  trail.update?.(state, dt);
   scoring.update?.(state, dt);
   audio.update?.(state, dt);
   hud.update?.(state, dt);
@@ -80,7 +78,6 @@ function render(alpha) {
   world.render?.(state, alpha);
   thermals.render?.(state, alpha);
   flight.render?.(state, alpha);
-  trail.render?.(state, alpha);
   hud.render?.(state, alpha);
   renderer.render(scene, three);
 }
