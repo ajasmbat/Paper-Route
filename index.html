@@ -103,11 +103,12 @@
         transform: translate(-50%, -50%);
         font-family: 'DM Mono', ui-monospace, monospace;
         font-weight: 500;
-        font-size: 20px;
+        font-size: 22px;
         letter-spacing: 0.12em;
         color: var(--deep);
         background: var(--paper);
-        padding: 12px 20px;
+        padding: 14px 24px;
+        box-shadow: 0 2px 0 var(--deep);
         display: none;
       }
 
@@ -120,11 +121,12 @@
         display: inline-block;
         font-family: 'Archivo', system-ui, sans-serif;
         font-weight: 700;
-        font-size: 84px;
+        font-size: 104px;
         line-height: 1;
         transform: scaleX(1.25);
         background: var(--paper);
-        padding: 4px 10px 2px;
+        padding: 8px 16px 4px;
+        box-shadow: 0 2px 0 var(--deep);
         /* Contain mix-blend-mode: multiply on the glyph spans so blue+pink
            blend against this paper backdrop, not against the WebGL canvas. */
         isolation: isolate;
@@ -132,7 +134,7 @@
 
       #hud-alt .hud-numeral { transform-origin: left bottom; }
       #hud-speed .hud-numeral { transform-origin: right bottom; }
-      #hud-bearing .hud-numeral { transform-origin: center top; font-size: 56px; }
+      #hud-bearing .hud-numeral { transform-origin: center top; font-size: 84px; }
 
       .hud-glyph {
         display: inline-block;
@@ -141,16 +143,16 @@
 
       .hud-glyph--blue {
         color: var(--blue);
-        transform: translate(0.75px, 0.75px);
+        transform: translate(1px, 1px);
       }
 
       .hud-glyph--pink {
         position: absolute;
-        top: 4px;
-        left: 10px;
-        right: 10px;
+        top: 8px;
+        left: 16px;
+        right: 16px;
         color: var(--pink);
-        transform: translate(-0.75px, -0.75px);
+        transform: translate(-1px, -1px);
       }
 
       #hud-speed .hud-glyph--pink { text-align: right; }
@@ -160,14 +162,14 @@
       .hud-label {
         font-family: 'DM Mono', ui-monospace, monospace;
         font-weight: 500;
-        font-size: 12px;
+        font-size: 15px;
         letter-spacing: 0.15em;
         text-transform: uppercase;
         color: var(--deep);
-        margin-top: 4px;
+        margin-top: 6px;
       }
 
-      #hud-bearing .hud-label { margin-top: 0; margin-bottom: 4px; }
+      #hud-bearing .hud-label { margin-top: 0; margin-bottom: 6px; }
 
       /* Bearing bar + sliding tick (single-print, no misregistration). */
       .hud-bearing-bar {
@@ -209,14 +211,20 @@
         white-space: nowrap;
       }
 
-      /* STALL — the only place --yellow is ever used. Single-print, crisp. */
+      /* STALL — the only place --yellow is ever used. Single-print, crisp.
+         Sits on a --paper chip with a hard 2px ink drop so yellow doesn't
+         vibrate against deep-blue fog. No misregistration on this element. */
       #hud-stall {
         top: 42%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 96px;
+        font-size: 128px;
+        line-height: 1;
         letter-spacing: 0.08em;
         color: var(--yellow);
+        background: var(--paper);
+        padding: 16px 32px 12px;
+        box-shadow: 0 2px 0 var(--deep);
         display: none;
       }
     </style>
