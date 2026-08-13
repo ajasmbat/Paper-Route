@@ -191,6 +191,24 @@
         transition: left 60ms linear;
       }
 
+      /* Per-level best chip — DM Mono, single-print, --deep ink.
+         Sits beneath the top-center Dist chip. No misregistration: the
+         blue+pink multiply effect is reserved for the big Archivo numerals. */
+      #hud-best {
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'DM Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--deep);
+        text-align: center;
+        white-space: nowrap;
+      }
+
       /* STALL — the only place --yellow is ever used. Single-print, crisp. */
       #hud-stall {
         top: 42%;
@@ -230,6 +248,7 @@
           <div class="hud-bearing-tick"></div>
         </div>
       </div>
+      <div id="hud-best">BEST — · —</div>
       <div id="hud-stall">STALL</div>
       <div id="hud-fail"></div>
     </div>
