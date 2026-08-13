@@ -76,15 +76,161 @@
       }
 
       #click-to-fly[hidden] { display: none; }
+
+      /* Positional anchors for each HUD region. */
+      #hud-alt {
+        left: 32px;
+        bottom: 32px;
+        text-align: left;
+      }
+
+      #hud-speed {
+        right: 32px;
+        bottom: 32px;
+        text-align: right;
+      }
+
+      #hud-bearing {
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+
+      #hud-fail {
+        top: 58%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'DM Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 20px;
+        letter-spacing: 0.12em;
+        color: var(--deep);
+        background: var(--paper);
+        padding: 12px 20px;
+        display: none;
+      }
+
+      /* Big misregistered numerals (alt / speed / distance).
+         Double-print: the first glyph takes layout space; the second is
+         absolutely stacked on top. Both use mix-blend-mode: multiply so
+         the offset blue+pink prints read as a risograph misregistration. */
+      .hud-numeral {
+        position: relative;
+        display: inline-block;
+        font-family: 'Archivo', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 84px;
+        line-height: 1;
+        transform: scaleX(1.25);
+        background: var(--paper);
+        padding: 4px 10px 2px;
+        /* Contain mix-blend-mode: multiply on the glyph spans so blue+pink
+           blend against this paper backdrop, not against the WebGL canvas. */
+        isolation: isolate;
+      }
+
+      #hud-alt .hud-numeral { transform-origin: left bottom; }
+      #hud-speed .hud-numeral { transform-origin: right bottom; }
+      #hud-bearing .hud-numeral { transform-origin: center top; font-size: 56px; }
+
+      .hud-glyph {
+        display: inline-block;
+        mix-blend-mode: multiply;
+      }
+
+      .hud-glyph--blue {
+        color: var(--blue);
+        transform: translate(0.75px, 0.75px);
+      }
+
+      .hud-glyph--pink {
+        position: absolute;
+        top: 4px;
+        left: 10px;
+        right: 10px;
+        color: var(--pink);
+        transform: translate(-0.75px, -0.75px);
+      }
+
+      #hud-speed .hud-glyph--pink { text-align: right; }
+      #hud-bearing .hud-glyph--pink { text-align: center; }
+
+      /* Labels — DM Mono, wide tracking, single-print. */
+      .hud-label {
+        font-family: 'DM Mono', ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--deep);
+        margin-top: 4px;
+      }
+
+      #hud-bearing .hud-label { margin-top: 0; margin-bottom: 4px; }
+
+      /* Bearing bar + sliding tick (single-print, no misregistration). */
+      .hud-bearing-bar {
+        position: relative;
+        width: 280px;
+        height: 2px;
+        margin: 10px auto 0;
+        background: var(--deep);
+      }
+
+      .hud-bearing-tick {
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -6px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 10px solid var(--deep);
+        transition: left 60ms linear;
+      }
+
+      /* STALL — the only place --yellow is ever used. Single-print, crisp. */
+      #hud-stall {
+        top: 42%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 96px;
+        letter-spacing: 0.08em;
+        color: var(--yellow);
+        display: none;
+      }
     </style>
   </head>
   <body>
     <canvas id="game"></canvas>
     <div id="hud">
-      <div id="hud-alt"></div>
-      <div id="hud-speed"></div>
-      <div id="hud-bearing"></div>
-      <div id="hud-stall"></div>
+      <div id="hud-alt">
+        <div class="hud-numeral">
+          <span class="hud-glyph hud-glyph--blue">0</span>
+          <span class="hud-glyph hud-glyph--pink">0</span>
+        </div>
+        <div class="hud-label">Alt</div>
+      </div>
+      <div id="hud-speed">
+        <div class="hud-numeral">
+          <span class="hud-glyph hud-glyph--blue">0</span>
+          <span class="hud-glyph hud-glyph--pink">0</span>
+        </div>
+        <div class="hud-label">Spd</div>
+      </div>
+      <div id="hud-bearing">
+        <div class="hud-label">Dist</div>
+        <div class="hud-numeral">
+          <span class="hud-glyph hud-glyph--blue">0</span>
+          <span class="hud-glyph hud-glyph--pink">0</span>
+        </div>
+        <div class="hud-bearing-bar">
+          <div class="hud-bearing-tick"></div>
+        </div>
+      </div>
+      <div id="hud-stall">STALL</div>
       <div id="hud-fail"></div>
     </div>
     <div id="click-to-fly" hidden>CLICK TO FLY</div>
