@@ -1,0 +1,13 @@
+node_modules
+dist
+.DS_Store
+*.log
+
+# Fredrin per-worktree wrapper (holds a scoped API token) + generated bits.
+# FREDRIN.md is committed; nothing else in .fredrin/ is.
+.fredrin/fredrin
+.fredrin/fredrin.cmd
+.fredrin/context-pack.mjs
+.fredrin/session-verbs.json
+.fredrin/hooks/
+.fredrin/attachments/
